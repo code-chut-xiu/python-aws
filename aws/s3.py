@@ -19,10 +19,7 @@ def create_bucket(bucket_name, region=None):
     return True
 
 
-# Let's get your Amazon S3
-s3 = boto3.resource('s3')
-
-# Display the S3 buckets
-for bucket in s3.buckets.all():
-    print(bucket.name)
+def list_bucket_objects():
+    s3_client = boto3.client('s3')
+    return s3_client.list_buckets()['Buckets']
 
