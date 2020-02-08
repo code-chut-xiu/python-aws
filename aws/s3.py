@@ -52,10 +52,37 @@ def upload_file_object_to_bucket(file_name, bucket_name, object_name=None):
     result = True
     try:
         with open(file_name, 'rb') as f:
-            response = s3_client.upload_fileobj(file_name, bucket_name, object_name)
+            response = s3_client.upload_fileobj(f, bucket_name, object_name)
     except ClientError as e:
         logging.error(e)
         result = False
 
     return result
-    return
+
+
+def download_file_from_bucket(file_name, bucket_name, object_name):
+    if object_name is None:
+        object_name = file_name
+
+    s3_client = boto3.client('s3')
+    result = True
+    try:
+        response = s3_client.download_file(bucket_name, object_name, file_name)
+    except ClientError as e:
+        logging.error(e)
+        result = False
+
+    return result
+
+
+def download_file_object_to_bucket(file_name, bucket_name, object_name=None):
+    s3_client = boto3.client('s3')
+    result = True
+    try:
+        with open(file_name, 'wb') as f:
+            response = s3_client.download_fileobj(bucket_name, object_name, f)
+    except ClientError as e:
+        logging.error(e)
+        result = False
+
+    return result
