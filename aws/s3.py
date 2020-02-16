@@ -3,6 +3,7 @@ from botocore.exceptions import ClientError
 import logging
 
 
+# Create an S3 bucket with name and optional region
 def create_bucket(bucket_name, region=None):
     try:
         if region is None:
@@ -19,6 +20,7 @@ def create_bucket(bucket_name, region=None):
     return True
 
 
+# List all buckets (the objects) owned by this user
 def list_bucket_objects():
     s3_client = boto3.client('s3')
     return s3_client.list_buckets()['Buckets']
